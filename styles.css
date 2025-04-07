@@ -177,3 +177,101 @@ ul, li {
 .menu-list > li > a:hover {
   background-color: #666;
 }
+
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+  /* NAVBAR */
+  .navbar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    flex-wrap: wrap;
+  }
+
+  .logo-container {
+    margin-bottom: 0;
+  }
+
+  .nav-options {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    background-color: #333;
+  }
+
+  .nav-options.show {
+    display: flex;
+  }
+
+  .hamburger {
+    margin-top: 0;
+  }
+
+  /* CONTENT */
+  .content {
+    margin: 100px 20px 20px 20px;
+    padding: 0;
+  }
+
+  h1, h2 {
+    font-size: 2.2rem;
+  }
+
+  .lineup-grid, .info-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .artist-box, .info-box {
+    width: 90%;
+  }
+
+  .ticket-box, .about-merch, .about-slideshow, .venue-slideshow {
+    width: 95%;
+    height: auto;
+  }
+
+  /* FAQ and Footer */
+  .faq-section {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .footer-toggle {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .footer {
+    font-size: 0.85rem;
+    height: auto;
+    padding: 20px 10px;
+  }
+
+  /* Map resizing */
+  .map-container iframe {
+    width: 90%;
+    height: 300px;
+  }
+
+  /* Social icons (home) */
+  .social-icons {
+    bottom: 120px;
+    gap: 15px;
+  }
+
+  .social-icons a {
+    width: 48px;
+    height: 48px;
+  }
+
+  .social-icons img {
+    width: 28px;
+    height: 28px;
+  }
+}
