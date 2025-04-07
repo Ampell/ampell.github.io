@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - Musicpit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    /* RESET & BASE STYLES */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Courier New', monospace; background-color: #fff; color: #333; }
+    
+    /* VERTICAL NAVBAR (SIDEBAR) */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100vh;
+      background-color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      z-index: 100;
+    }
+    .logo-container { margin-bottom: 20px; }
+    .logo {
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      text-decoration: none;
+    }
+    .nav-options {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .nav-options.hidden { transform: translateX(-100%); }
+    .nav-options a {
+      display: block;
+      padding: 10px 0;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+    }
+    .nav-options a:hover { background-color: #666; }
+    .nav-options a.active { color: #aaa; }
+    .hamburger { cursor: pointer; margin-top: auto; }
+    .hamburger span {
+      display: block;
+      width: 30px; height: 4px;
+      background-color: #fff;
+      margin: 5px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger:hover span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger:hover span:nth-child(2) { opacity: 0; }
+    .hamburger:hover span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    /* MAIN CONTENT AREA */
+    .content {
+      margin-left: 220px;
+      margin-top: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .content h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .content h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    .content p, .content li {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .activities-list {
+      list-style: disc;
+      margin-left: 20px;
+    }
+    
+    /* About Musicpit Slideshow (2 images with same animation) */
+    .about-slideshow {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      height: 400px;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .about-slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      animation: crossfade 16s infinite;
+    }
+    .about-slideshow img:hover { transform: scale(1.05); }
+    .about-slideshow img:nth-child(2) {
+      animation-delay: 8s;
+    }
+    
+    @keyframes crossfade {
+      0%   { opacity: 1; }
+      45%  { opacity: 1; }
+      55%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
+    /* Standalone About Merch Image */
+    .about-merch {
+      display: block;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 800px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .about-merch:hover { transform: scale(1.05); }
+
+    .footer-toggle {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-size: 1.8rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.footer {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 280px;
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  padding: 20px;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  transition: bottom 0.5s ease-in-out;
+  z-index: 998;
+}
+
+.footer.show {
+  bottom: 0;
+}
+
+.footer-content {
+  max-width: 800px;
+}
+
+.footer-content p {
+  margin: 12px 0;
+}
+
+.ack-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+.faq-section {
+  max-width: 3000
+px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  margin-left: calc(220px + (100% - 220px - 800px) / 2);
+}
+
+.faq-box {
+  background-color: #f5f5f5;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+
+.faq-box:hover {
+  background-color: #eaeaea;
+}
+
+.faq-question {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.faq-answer {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  color: #444;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.faq-box.active .faq-answer {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+  </style>
+</head>
+<body>
+  <!-- VERTICAL NAVBAR -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <a href="home.html" class="logo">Musicpit</a>
+    </div>
+    <div class="nav-options" id="nav-options">
+      <a href="tickets.html">Tickets</a>
+      <a href="about.html" class="active">About</a>
+      <a href="venue.html">Venue</a>
+      <a href="lineup.html">Lineup</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <h1>About Musicpit</h1>
+    <p>Welcome to Musicpit, your ultimate destination for live music experiences. We are dedicated to bringing you the best concerts, unforgettable moments, and an inclusive environment that celebrates music and community. Our mission is to provide a platform where artists can share their passion and fans can experience the magic of live performances.</p>
+    <p>At Musicpit, we value accessibility, innovation, and the spirit of music. Our venues are designed with modern amenities to ensure comfort and safety for all guests. Whether you're here for a vibrant concert, an intimate performance, or a special event, Musicpit is your go-to destination for quality entertainment.</p>
+    
+    <!-- About Musicpit Image Slideshow -->
+    <div class="about-slideshow">
+      <img src="about1.jpg" alt="About Slide 1">
+      <img src="about2.jpg" alt="About Slide 2">
+    </div>
+    
+    <!-- Activities Section -->
+    <h2>Activities</h2>
+    <ul class="activities-list">
+      <li><strong>Live Music:</strong> Enjoy electrifying performances from Playboi Carti and other artists that transform every moment into a celebration of sound and rhythm.</li>
+      <li><strong>Meet and Greets:</strong> Connect with top artists such as Playboi Carti, Ken Carson, and Destroy Lonely, and receive signatures during exclusive sessions.</li>
+      <li><strong>Food &amp; Drinks:</strong> Savor an array of delicious culinary offerings and refreshing beverages to keep you energized, all included with VIP admission.</li>
+      <li><strong>Camping &amp; Accommodation:</strong> Relax in comfortable camping areas and well-appointed accommodations designed for your convenience.</li>
+    </ul>
+    
+    <!-- Standalone About Merch Image -->
+    <img src="aboutmerch.jpg" alt="Musicpit Merch" class="about-merch">
+  </div>
+
+  <!-- FAQ SECTION -->
+<div class="faq-section" style="margin-left: 220px; padding: 40px 20px;">
+  <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; margin-bottom: 30px;">Frequently Asked Questions</h2>
+  
+  <div class="faq-box" onclick="toggleFAQ(this)">
+    <div class="faq-question">What time should I arrive at Musicpit?</div>
+    <div class="faq-answer">We recommend arriving at least 30–45 minutes before your entry time to avoid delays and enjoy the pre-show atmosphere!</div>
+  </div>
+
+  <div class="faq-box" onclick="toggleFAQ(this)">
+    <div class="faq-question">Are there age restrictions?</div>
+    <div class="faq-answer">Yes, attendees must be 12+ and guests under 16 must be accompanied by a guardian aged 18 or over.</div>
+  </div>
+
+  <div class="faq-box" onclick="toggleFAQ(this)">
+    <div class="faq-question">Can I bring outside food or drink?</div>
+    <div class="faq-answer">Unfortunately no. Outside food and beverages are not permitted, but we have amazing food stalls on site.</div>
+  </div>
+
+  <div class="faq-box" onclick="toggleFAQ(this)">
+    <div class="faq-question">Is there re-entry once I leave?</div>
+    <div class="faq-answer">No re-entry is allowed once you’ve entered the venue, so make sure to bring everything you need.</div>
+  </div>
+
+  <div class="faq-box" onclick="toggleFAQ(this)">
+    <div class="faq-question">Do you offer accessible services?</div>
+    <div class="faq-answer">Yes! We offer wheelchair access, accessible toilets, and support for guests with mobility or sensory needs. Please contact us in advance.</div>
+  </div>
+</div>
+
+  <!-- Footer Toggle Arrow -->
+<div class="footer-toggle" onclick="toggleFooter()">&#9650;</div>
+
+<!-- Footer -->
+<div class="footer" id="footer">
+  <div class="footer-content">
+    <p><strong><a href="privacy.html">Privacy Policy</a></strong></p>
+      <p><strong><a href="terms.html">Terms and Conditions</a></strong></p>
+    <p class="ack-text">
+      We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation.
+      We pay our respects to their Elders past and present and extend that respect to all Aboriginal 
+      and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
+    </p>
+  </div>
+</div>
+  
+  <script>
+    // Toggle mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const navOptions = document.getElementById('nav-options');
+    hamburger.addEventListener('click', () => {
+      navOptions.classList.toggle('hidden');
+    });
+  </script>
+<script>
+  function toggleFooter() {
+    document.getElementById('footer').classList.toggle('show');
+  }
+  function toggleFAQ(box) {
+  box.classList.toggle('active');
+}
+</script>
+</body>
+</html>

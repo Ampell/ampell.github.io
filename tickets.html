@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tickets - Musicpit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Courier New', monospace; background-color: #fff; color: #333; }
+
+    .navbar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200px; height: 100vh;
+      background-color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      z-index: 100;
+    }
+    .logo-container { margin-bottom: 20px; }
+    .logo {
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      text-decoration: none;
+    }
+    .nav-options {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .nav-options.hidden { transform: translateX(-100%); }
+    .nav-options a {
+      display: block;
+      padding: 10px 0;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+    }
+    .nav-options a:hover { background-color: #666; }
+    .nav-options a.active { color: #aaa; }
+    .hamburger { cursor: pointer; margin-top: auto; }
+    .hamburger span {
+      display: block;
+      width: 30px; height: 4px;
+      background-color: #fff;
+      margin: 5px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger:hover span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger:hover span:nth-child(2) { opacity: 0; }
+    .hamburger:hover span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .content {
+      margin-left: 220px;
+      margin-top: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .ticket-slideshow {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      height: 400px;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .ticket-slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .ticket-slideshow img:hover { transform: scale(1.05); }
+    @keyframes crossfade {
+      0%   { opacity: 0; }
+      8%   { opacity: 1; }
+      25%  { opacity: 1; }
+      33%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    .ticket-slideshow img:nth-child(1) { animation: crossfade 32s infinite; animation-delay: 0s; }
+    .ticket-slideshow img:nth-child(2) { animation: crossfade 32s infinite; animation-delay: 8s; }
+    .ticket-slideshow img:nth-child(3) { animation: crossfade 32s infinite; animation-delay: 16s; }
+    .ticket-slideshow img:nth-child(4) { animation: crossfade 32s infinite; animation-delay: 24s; }
+
+  
+    .info-section {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .info-box {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+  }
+
+  .info-box:hover {
+    background-color: #f9f9f9;
+  }
+
+  .info-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .info-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  .info-box:hover .info-content {
+    max-height: 1000px;
+    opacity: 1;
+  }
+
+  .info-content p {
+    font-size: 0.9rem;
+    color: #666;
+    padding: 10px 0;
+  }
+    .ticket-box {
+      width: 80%;
+      margin: 20px auto;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .ticket-box h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .form-row { margin-bottom: 15px; }
+    .form-row label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-row select,
+    .form-row input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .price-row {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .purchase-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      color: #fff;
+      background-color: #333;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .purchase-btn:hover { background-color: #555; }
+
+    .footer-toggle {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 1.8rem;
+      color: white;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      height: 280px;
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      padding: 20px;
+      box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+      transition: bottom 0.5s ease-in-out;
+      z-index: 998;
+    }
+
+    .footer.show {
+      bottom: 0;
+    }
+
+    .footer-content {
+      max-width: 800px;
+    }
+
+    .footer-content p {
+      margin: 12px 0;
+    }
+
+    .ack-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo-container">
+      <a href="home.html" class="logo">Musicpit</a>
+    </div>
+    <div class="nav-options" id="nav-options">
+      <a href="tickets.html" class="active">Tickets</a>
+      <a href="about.html">About</a>
+      <a href="venue.html">Venue</a>
+      <a href="lineup.html">Lineup</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="ticket-slideshow">
+      <img src="ImageOne.jpg" alt="Slide 1">
+      <img src="ImageTwo.jpg" alt="Slide 2">
+      <img src="ImageThree.jpg" alt="Slide 3">
+      <img src="ImageFour.jpg" alt="Slide 4">
+    </div>
+
+  <!-- Info Sections -->
+<div class="info-section">
+  <div class="info-box">
+    <div class="info-title">Accessibility</div>
+    <div class="info-content">
+      <p>MUSICPIT is committed to creating an inclusive experience for every guest. The venue features wheelchair-accessible entrances, dedicated seating options, and assistive technologies to ensure that all music lovers can enjoy the show comfortably. Please contact our team beforehand so we can arrange suitable services for your needs! Email MUSICPIT@gmail.com for any inquiries.</p>
+    </div>
+  </div>
+  <div class="info-box">
+    <div class="info-title">Information</div>
+    <div class="info-content">
+      <p>At MUSICPIT, all ticket purchases are non-refundable and non-transferable. Please verify your order details carefully before finalizing your purchase. Arrive at least 30 minutes early with a clear, scannable digital ticket or printed copy, along with a valid photo ID. Children under 12 are not permitted, and guests under 16 must be accompanied by an adult. Tickets must be legible and complete, as discrepancies could delay your entry. Re-entry is not permitted once admitted—please review all event guidelines in advance.</p>
+    </div>
+  </div>
+</div>
+
+    <div class="ticket-box">
+      <h2>Purchase Tickets</h2>
+      <div class="form-row">
+        <label for="ticketType">Ticket Type</label>
+        <select id="ticketType">
+          <option value="30">General Admission - $30</option>
+          <option value="100">VIP Admission - $100</option>
+          <option value="250">Exclusive Admission - $250</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+      <div class="form-row">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" placeholder="0" min="1" value="1">
+      </div>
+      <div class="price-row" id="priceRow">Total Price: $0</div>
+      <button class="purchase-btn" onclick="purchaseTickets()">Purchase Ticket</button>
+    </div>
+  </div>
+
+  <div class="footer-toggle" onclick="toggleFooter()">&#9650;</div>
+  <div class="footer" id="footer">
+    <div class="footer-content">
+      <p><strong><a href="privacy.html">Privacy Policy</a></strong></p>
+      <p><strong><a href="terms.html">Terms and Conditions</a></strong></p>
+      <p class="ack-text">
+        We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation. We pay our respects to their Elders past and present and extend that respect to all Aboriginal and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navOptions = document.getElementById('nav-options');
+    hamburger.addEventListener('click', () => {
+      navOptions.classList.toggle('hidden');
+    });
+
+    function toggleFooter() {
+      document.getElementById('footer').classList.toggle('show');
+    }
+
+    function toggleInfo(box) {
+      box.classList.toggle('active');
+    }
+
+    const ticketTypeSelect = document.getElementById('ticketType');
+    const quantityInput = document.getElementById('quantity');
+    const priceRow = document.getElementById('priceRow');
+
+    function updatePrice() {
+      const pricePerTicket = parseFloat(ticketTypeSelect.value) || 0;
+      const qty = parseInt(quantityInput.value) || 0;
+      const total = pricePerTicket * qty;
+      priceRow.textContent = `Total Price: $${total}`;
+    }
+
+    function purchaseTickets() {
+      const nameVal = document.getElementById('name').value;
+      const emailVal = document.getElementById('email').value;
+      const qtyVal = quantityInput.value;
+      const priceVal = ticketTypeSelect.value;
+      const totalPrice = parseInt(priceVal) * parseInt(qtyVal) || 0;
+      alert(
+        `Thank you, ${nameVal}!\n` +
+        `Email: ${emailVal}\n` +
+        `Ticket Type: $${priceVal}\n` +
+        `Quantity: ${qtyVal}\n` +
+        `Total Price: $${totalPrice}`
+      );
+    }
+
+    ticketTypeSelect.addEventListener('change', updatePrice);
+    quantityInput.addEventListener('input', updatePrice);
+    updatePrice();
+  </script>
+</body>
+</html>

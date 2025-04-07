@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Venue - Musicpit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    /* RESET & BASE STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #fff;
+      color: #333;
+    }
+    
+    /* VERTICAL NAVBAR (SIDEBAR) */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100vh;
+      background-color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      z-index: 100;
+    }
+    .logo-container {
+      margin-bottom: 20px;
+    }
+    .logo {
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      text-decoration: none;
+    }
+    .nav-options {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .nav-options.hidden {
+      transform: translateX(-100%);
+    }
+    .nav-options a {
+      display: block;
+      padding: 10px 0;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+    }
+    .nav-options a:hover {
+      background-color: #666;
+    }
+    .nav-options a.active {
+      color: #aaa;
+    }
+    .hamburger {
+      cursor: pointer;
+      margin-top: auto;
+    }
+    .hamburger span {
+      display: block;
+      width: 30px;
+      height: 4px;
+      background-color: #fff;
+      margin: 5px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger:hover span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger:hover span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger:hover span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    /* MAIN CONTENT AREA */
+    .content {
+      margin-left: 220px;
+      margin-top: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .content h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .content p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    /* Venue Slideshow (3 images) */
+    .venue-slideshow {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      height: 400px;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .venue-slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      animation: crossfade 12s infinite;
+    }
+    .venue-slideshow img:hover {
+      transform: scale(1.05);
+    }
+    /* Delay subsequent images to stagger the crossfade */
+    .venue-slideshow img:nth-child(2) {
+      animation-delay: 4s;
+    }
+    .venue-slideshow img:nth-child(3) {
+      animation-delay: 8s;
+    }
+    @keyframes crossfade {
+      0%   { opacity: 1; }
+      25%  { opacity: 1; }
+      33%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
+    /* Google Map Container */
+    .map-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .map-container iframe {
+      border: 2px solid #ccc; /* grey outline */
+      border-radius: 12px;    /* curved corners */
+      width: 600px;
+      height: 450px;
+    }
+    .footer-toggle {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-size: 1.8rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.footer {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 280px;
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  padding: 20px;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  transition: bottom 0.5s ease-in-out;
+  z-index: 998;
+}
+
+.footer.show {
+  bottom: 0;
+}
+
+.footer-content {
+  max-width: 800px;
+}
+
+.footer-content p {
+  margin: 12px 0;
+}
+
+.ack-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+  </style>
+</head>
+<body>
+  <!-- VERTICAL NAVBAR -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <a href="home.html" class="logo">Musicpit</a>
+    </div>
+    <div class="nav-options" id="nav-options">
+      <a href="tickets.html">Tickets</a>
+      <a href="about.html">About</a>
+      <a href="venue.html" class="active">Venue</a>
+      <a href="lineup.html">Lineup</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <!-- Header -->
+    <h1>Venue - Qudos Bank Arena, Sydney</h1>
+    
+    <!-- Venue Image Slideshow -->
+    <div class="venue-slideshow">
+      <img src="bank1.jpg" alt="Qudos Bank Arena Slide 1">
+      <img src="bank2.jpg" alt="Qudos Bank Arena Slide 2">
+      <img src="bank3.jpg" alt="Qudos Bank Arena Slide 3">
+    </div>
+    
+    <!-- Descriptive Text -->
+    <p>Qudos Bank Arena, located in the heart of Sydney, is one of the city’s premier live event venues. Boasting a seating capacity of over 18,000, the arena is designed to offer an exceptional viewing experience with state-of-the-art acoustics, ergonomic seating, and unobstructed sightlines. Its modern facilities and thoughtfully arranged layout ensure that every guest enjoys both comfort and convenience, whether attending a concert, sporting event, or other live performances. The venue’s emphasis on quality and accessibility makes it a standout destination for unforgettable, immersive experiences.</p>
+    
+    <!-- Embedded Google Map with curved corners and grey outline -->
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3313.7599804581!2d151.0595250764289!3d-33.84429997323597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12a4b08ed5bcb3%3A0x1b040938318011e5!2sQudos%20Bank%20Arena!5e0!3m2!1sen!2sau!4v1743935582634!5m2!1sen!2sau"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+  <!-- Footer Toggle Arrow -->
+<div class="footer-toggle" onclick="toggleFooter()">&#9650;</div>
+
+<!-- Footer -->
+<div class="footer" id="footer">
+  <div class="footer-content">
+    <p><strong><a href="privacy.html">Privacy Policy</a></strong></p>
+      <p><strong><a href="terms.html">Terms and Conditions</a></strong></p>
+    <p class="ack-text">
+      We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation.
+      We pay our respects to their Elders past and present and extend that respect to all Aboriginal 
+      and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
+    </p>
+  </div>
+</div>
+  <script>
+    // Toggle mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const navOptions = document.getElementById('nav-options');
+    hamburger.addEventListener('click', () => {
+      navOptions.classList.toggle('hidden');
+    });
+  </script>
+  <script>
+    function toggleFooter() {
+      document.getElementById('footer').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

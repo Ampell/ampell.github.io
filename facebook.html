@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Post - Musicpit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 6px #aaa;
+    }
+
+    .post-img {
+      width: 90%;
+      max-width: 700px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .post-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Facebook Post</h1>
+  <img class="post-img" src="facebookpost.png" alt="Facebook Post">
+</body>
+</html>
