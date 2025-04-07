@@ -1,1 +1,0 @@
-# ampell.github.io
