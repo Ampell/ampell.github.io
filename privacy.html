@@ -6,20 +6,13 @@
   <title>Privacy Policy - Musicpit</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
-    /* RESET & BASE STYLES */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: 'Courier New', monospace; 
-      background-color: #fff; 
-      color: #333; 
-    }
-    /* VERTICAL NAVBAR */
+    body { font-family: 'Courier New', monospace; background-color: #fff; color: #333; }
+
     .navbar {
       position: fixed;
-      top: 0; 
-      left: 0;
-      width: 200px; 
-      height: 100vh;
+      top: 0; left: 0;
+      width: 200px; height: 100vh;
       background-color: #333;
       display: flex;
       flex-direction: column;
@@ -27,13 +20,16 @@
       padding: 20px 0;
       z-index: 100;
     }
+
     .logo-container { margin-bottom: 20px; }
+
     .logo {
       color: #fff;
       font-family: 'Bebas Neue', sans-serif;
       font-size: 2rem;
       text-decoration: none;
     }
+
     .nav-options {
       flex: 1;
       display: flex;
@@ -43,6 +39,9 @@
       text-align: center;
       transition: transform 0.3s ease;
     }
+
+    .nav-options.hidden { transform: translateX(-100%); }
+
     .nav-options a {
       display: block;
       padding: 10px 0;
@@ -51,22 +50,70 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.4rem;
     }
+
     .nav-options a:hover { background-color: #666; }
-    /* MAIN CONTENT */
+
+    .hamburger {
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 30px;
+      height: 4px;
+      background-color: #fff;
+      margin: 5px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .hamburger:hover span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger:hover span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger:hover span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
     .content {
       margin-left: 220px;
       margin-top: 20px;
       padding: 20px;
     }
+
     .content h1 {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 3rem;
       margin-bottom: 20px;
     }
+
     .content p {
       font-size: 1.1rem;
       line-height: 1.6;
       margin-bottom: 20px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      background-color: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .footer-content p {
+      margin: 12px 0;
+    }
+
+    .ack-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      opacity: 0.95;
     }
   </style>
 </head>
@@ -82,45 +129,42 @@
       <a href="venue.html">Venue</a>
       <a href="lineup.html">Lineup</a>
     </div>
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </nav>
-  
+
   <!-- MAIN CONTENT -->
   <div class="content">
     <h1>Privacy Policy</h1>
-    <p>
-      Your privacy is important to us at Musicpit. This Privacy Policy explains how we collect, use, disclose, 
-      and safeguard your information when you visit our website. We are committed to protecting your personal data 
-      and your right to privacy. We only collect information necessary for providing our services and improving 
-      your experience.
-    </p>
-    <p>
-      We do not sell, trade, or otherwise transfer your Personally Identifiable Information to outside parties 
-      without your consent, except as described in this policy. We employ industry-standard security measures to 
-      protect your information.
-    </p>
-    <p>
-      By using our site, you consent to our Privacy Policy. If you have any questions or concerns about our practices, 
-      please contact us.
-    </p>
-    <!-- Footer -->
-<div class="footer" id="footer">
-  <div class="footer-content">
- 
+    <p>Your privacy is important to us at Musicpit. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
+    <p>We are committed to protecting your personal data and your right to privacy. We only collect information necessary for providing our services and improving your experience.</p>
+    <p>We do not sell, trade, or otherwise transfer your Personally Identifiable Information to outside parties without your consent, except as described in this policy.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-content">
       <p><strong><a href="terms.html">Terms and Conditions</a></strong></p>
-    <p class="ack-text">
-      We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation.
-      We pay our respects to their Elders past and present and extend that respect to all Aboriginal 
-      and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
-    </p>
+      <p class="ack-text">
+        We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation.
+        We pay our respects to their Elders past and present and extend that respect to all Aboriginal 
+        and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
+      </p>
+    </div>
   </div>
-  </div>
+
+  <!-- SCRIPT -->
   <script>
-    function toggleFooter() {
-      document.getElementById('footer').classList.toggle('show');
-    }
-    function toggleFAQ(box) {
-    box.classList.toggle('active');
-  }
+    const hamburger = document.getElementById('hamburger');
+    const navOptions = document.getElementById('nav-options');
+
+    hamburger.addEventListener('click', () => {
+      navOptions.classList.toggle('hidden');
+    });
   </script>
 </body>
 </html>
