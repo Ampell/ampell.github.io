@@ -38,9 +38,35 @@
       transform: scale(1.05);
       box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
     }
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      padding: 8px 16px;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .home-button:hover {
+      background-color: #fff;
+      color: #111;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #fff;
+    }
   </style>
 </head>
 <body>
+  <!-- Back Button -->
+  <a href="home.html" class="home-button">← Back to Home</a>
+
   <h1>Facebook Post</h1>
   <img class="post-img" src="facebookpost.png" alt="Facebook Post">
 </body>
