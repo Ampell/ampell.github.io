@@ -68,6 +68,7 @@
       line-height: 1.6;
       margin-bottom: 20px;
     }
+    
   </style>
 </head>
 <body>
@@ -103,6 +104,23 @@
       By accessing this website, you agree to be bound by these Terms and Conditions. If you disagree with any part of these 
       terms, then you may not access the website.
     </p>
+    <div class="footer" id="footer">
+        <div class="footer-content">
+       
+            <p><strong><a href="terms.html">Terms and Conditions</a></strong></p>
+          <p class="ack-text">
+            We acknowledge the Traditional Custodians of this land, the Gadigal People of the Eora Nation.
+            We pay our respects to their Elders past and present and extend that respect to all Aboriginal 
+            and Torres Strait Islander peoples. We honour their ongoing connection to land, waters, and culture.
+          </p>
   </div>
+  <script>
+    function toggleFooter() {
+      document.getElementById('footer').classList.toggle('show');
+    }
+    function toggleFAQ(box) {
+    box.classList.toggle('active');
+  }
+  </script>
 </body>
 </html>
